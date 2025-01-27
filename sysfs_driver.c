@@ -11,13 +11,13 @@
 #include <linux/kobject.h>
 #include <linux/err.h>
 
-volatile int dms_value = 0;
+volatile int dms_value = 0; //volatile since the value might change 
 volatile int dms_value1 = 0;
 
 dev_t dev = 0;
 static struct class *dev_class;
 static struct cdev dms_cdev;
-struct kobject *kobj_ref;
+struct kobject *kobj_ref; 
 
 /*
 ** Function Prototypes
@@ -125,7 +125,8 @@ static int __init dms_driver_init(void) {
         pr_info("Cannot create the Device\n");
         goto r_device;
     }
-
+	//this will create a directory under /sys/kernel : since the seccond 
+	// arg is kernel_kobj
     kobj_ref = kobject_create_and_add("dms_sysfs", kernel_kobj);
 
     if (sysfs_create_file(kobj_ref, &dms_attr.attr)) {
