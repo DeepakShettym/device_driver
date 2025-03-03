@@ -1,6 +1,6 @@
 # Makefile for the Deepak_2002 Linux Driver
 
-obj-m += file_operation.o
+obj-m += procfs_driver.o
 
 # KERNELDIR = /path/to/your/kernel
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build

@@ -29,8 +29,9 @@
 
 /* Global variables */
 int32_t value = 0;
-char dms_array[20] = "try_proc_array\n";
-static int len = 1;
+
+char dms_array[20] = "";
+
 
 dev_t dev = 0;
 static struct class *dev_class;
@@ -98,17 +99,21 @@ static int release_proc(struct inode *inode, struct file *file) {
 
 /* Procfs read function */
 static ssize_t read_proc(struct file *filp, char __user *buffer, size_t length, loff_t *offset) {
-    pr_info("Proc file read\n");
-    if (len) {
-        len = 0;
-    } else {
-        len = 1;
-        return 0;
+    size_t data_len = strlen(dms_array);  // Use strlen for correct data length
+
+    if (*offset >= data_len) {
+        return 0;  // EOF
     }
-    if (copy_to_user(buffer, dms_array, 20)) {
-        pr_err("Data send: error\n");
+
+    pr_info("Reading data from proc file\n");
+
+    if (copy_to_user(buffer, dms_array, data_len)) {
+        pr_err("Failed to copy data to user space\n");
+        return -EFAULT;  // Return error
     }
-    return length;
+
+    *offset += data_len;
+    return data_len;  // Return actual bytes read
 }
 
 /* Procfs write function */
