@@ -1,6 +1,6 @@
 # Makefile for the Deepak_2002 Linux Driver
 
-obj-m += procfs_driver.o
+obj-m += work_queue_optimized.o
 
 # KERNELDIR = /path/to/your/kernel
 KERNELDIR ?= /lib/modules/$(shell uname -r)/build
