@@ -183,8 +183,8 @@ static int __init dms_driver_init(void) {
     cdev_init(&dms_cdev, &fops);
 
     /* Adding character device to the system */
-    if (cdev_add(&dms_cdev, dev, 1) < 0) {
-        pr_info("Cannot add the device to the system\n");
+    if (cdev_add(&dms_cdev, dev, 1) < 0) {   //use MKDEV(MAJOR(dev_num), i) for multiple periperals for this divice if used .
+        pr_info("Cannot add the device to the system\n");  
         goto r_class;
     }
 
